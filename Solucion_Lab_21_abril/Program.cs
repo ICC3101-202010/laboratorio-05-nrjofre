@@ -13,6 +13,9 @@ namespace Solucion_Lab_21_abril
             Server server = new Server(database);
             MailSender mailSender = new MailSender();
             SMSSender smsSender = new SMSSender();
+            
+            //Parte 4: crear objeto user
+            User user = new User();
 
 
             //Suscribir los que escuchan los eventos
@@ -24,7 +27,10 @@ namespace Solucion_Lab_21_abril
             server.PasswordChanged += mailSender.OnPasswordChanged;
             //3- Suscribir OnCambiadaContrasena de smsSender para que escuche el evento CambiadaContrasena enviado por servidor
             server.PasswordChanged += smsSender.OnPasswordChanged;
-
+            
+            //Parte 4: Subscribir los metodos a los eventos
+            mailSender.EmailSent += user.OnEmailSent;
+            user.EmailVerified += server.OnEmailVerified;
 
             // Controla la ejecucion mientras el usuario no quiera salir
             bool exec = true;

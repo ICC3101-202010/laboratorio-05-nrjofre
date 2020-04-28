@@ -7,11 +7,16 @@ namespace Solucion_Lab_21_abril
 {
     public class MailSender
     {
+        public delegate void EmailSentEventHandler(object source, EmailSentEventArgs args);
+
+        public event EmailSentEventHandler EmailSent;
+
         public void OnRegistered(object source, RegisterEventArgs e)
         {
             Thread.Sleep(2000);
             Console.WriteLine($"\nCorreo enviado a {e.Email}: \n Gracias por registrarte, {e.Username}!\n Por favor, para poder verificar tu correo, has click en: {e.VerificationLink}\n");
             Thread.Sleep(2000);
+            OnEmailSent();
         }
 
         public void OnPasswordChanged(object source, ChangePasswordEventArgs e)
@@ -21,5 +26,12 @@ namespace Solucion_Lab_21_abril
             Thread.Sleep(2000);
         }
 
+        public virtual void OnEmailSent()
+        {
+            if(EmailSent != null)
+            {
+                EmailSent(this, new EmailSentEventArgs());
+            }
+        }
     }
 }
